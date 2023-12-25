@@ -1,0 +1,77 @@
+{{- define "caicai_anatole/scrap" -}}
+    <!DOCTYPE html>
+    <html lang="zh">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>收藏 {{.blog_title}}</title>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+        <meta name="format-detection" content="telephone=no"/>
+        <meta name="renderer" content="webkit"/>
+        <meta name="author" content="{{ .user.Nickname}}"/>
+        <meta name="keywords" content="{{ .meta_keywords}}"/>
+        <meta name="description" content="{{ .meta_description}}"/>
+        <link rel="alternate" type="application/rss+xml" title="atom 1.0" href="{{ .atom_url}}"/>
+        {{template "global.head" .}}
+        {{template "caicai_anatole/module/styles" .}}
+        
+    </head>
+    <body x-data="{ postSearchVisible: false }">
+    {{template "caicai_anatole/module/sidebar" .}}
+    <div class="main">
+        {{template "caicai_anatole/module/page-top" .}}
+        <div class="content">
+            <div class="m-[30px] mt-[20px] border-b border-gray-200 animated fadeInDown">
+                <div class="flex flex-col pb-3">
+                    <div class="flex flex-wrap items-end">
+                        <h3 class="text-xl leading-6 font-medium text-gray-900">收藏</h3>
+                    </div>
+                    <div>
+                    </div>
+                </div>
+            </div>
+            <div class="post-page">
+                <div class="post animated fadeInDown">
+                    <div class="">
+
+                        {{$links:=$.pages.Content}}
+
+                        {{if $.pages.HasContent}}
+                            {{range $link:=$links }}
+                                <a href="{{$link.URL}}" target="_blank" style="display: block; margin-top: 1rem;">
+                                    <div class="relative rounded border border-gray-300 bg-white px-5 py-4 shadow-sm hover:shadow flex items-center space-x-3 hover:border-gray-400">
+                                        <div class="flex-1 min-w-0">
+                                            <div>
+                                                <p class="text-sm font-medium text-gray-900 truncate">{{$link.Title}}</p>
+                                                <p class="text-sm text-gray-500 truncate">{{$link.Summary}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            {{end}}
+                        {{end}}
+                        
+                        {{if (gt .pages.Pages 1)}}
+                            {{$pagination:=$.pages}}
+                            <div class="pagination flex justify-between items-center">
+                                {{if $pagination.HasPrevious}}
+                                    <a class="btn w-20" role="navigation" href="?page={{$pagination.PrePage}}"
+                                       title="上一页">上一页</a>
+                                {{end}}
+                                <span class="text-sm">{{$pagination.PageNum}}/{{ $pagination.Pages}}</span>
+                                {{if $pagination.HasNext}}
+                                    <a class="btn w-20" role="navigation" href="?page={{$pagination.NextPage}}"
+                                       title="下一页">下一页</a>
+                                {{end}}
+                            </div>
+                        {{end}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{template "caicai_anatole/module/post-search-modal" .}}
+    </body>
+    </html>
+{{end}}
